@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import firebase from "firebase";
 export default {
   name: "Signin",
   data: function() {
@@ -17,6 +18,22 @@ export default {
       email: "",
       password: ""
     };
+  },
+  methods: {
+    signIn: function() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(
+          res => {
+            localStorage.setItem("jwt", res.user.qa);
+            this.$router.push("/");
+          },
+          err => {
+            alert(err.message);
+          }
+        );
+    }
   }
 };
 </script>
